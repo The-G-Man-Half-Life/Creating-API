@@ -13,15 +13,7 @@ public class Event
     [Column("name")]
     [StringLength(50,MinimumLength =1,ErrorMessage ="You must write at least 1 character and a maximum of 50 characters")]
     [Required]
-    public string Name {get; set;}
-
-    [Column("tables_amount")]
-    [Required]
-    public int TablesAmount {get; set;}
-    
-    [Column("chairs_by_table")]
-    [Required]
-    public int ChairsByTable {get; set;}
+    public required string EventName {get; set;}
 
     [Column("date_of_the_event")]
     [DisplayFormat(DataFormatString ="{0:yyyy-MM-dd}",ApplyFormatInEditMode = true)]

@@ -11,6 +11,8 @@ public class ApplicationDbContext: DbContext
     public DbSet<Guest> Guests {get; set;}
     public DbSet<User> Users {get; set;}
     public DbSet<UserAllergy> UserAllergies {get; set;}
+    public DbSet<Table> Tables {get; set;}
+    public DbSet<Chair> Chairs {get; set;}
 
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options) {}
