@@ -13,7 +13,7 @@ public class Event
     [Column("name")]
     [StringLength(50,MinimumLength =1,ErrorMessage ="You must write at least 1 character and a maximum of 50 characters")]
     [Required]
-    public string name {get; set;}
+    public string Name {get; set;}
 
     [Column("tables_amount")]
     [Required]
