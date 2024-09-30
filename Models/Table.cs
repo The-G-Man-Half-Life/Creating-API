@@ -15,7 +15,9 @@ public class Table
     public int Id {get; set;}
 
     [Column("event_id")]
-    [ForeignKey("Event")]
     [Required]
     public int EventId {get; set;}
+
+    [ForeignKey(nameof(EventId))]
+    public Event? Event {get; set;}
 }

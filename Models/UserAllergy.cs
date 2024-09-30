@@ -12,12 +12,16 @@ public class UserAllergy
     public int Id {get; set;}
 
     [Column("allergy_id")]
-    [ForeignKey("Allergy")]
     [Required]
     public int AllergyId {get; set;}
 
+    [ForeignKey(nameof(AllergyId))]
+    public Allergy? Allergy {get; set;}
+
     [Column("user_id")]
-    [ForeignKey("User")]
     [Required]
     public int UserId {get; set;}
+
+    [ForeignKey(nameof(UserId))]
+    public User? User {get; set;}
 }

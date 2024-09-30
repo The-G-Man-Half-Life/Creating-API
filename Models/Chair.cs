@@ -13,19 +13,28 @@ public class Chair
 {
     [Column("id")]
     [Key]
-    public int id {get; set;}
-
+    public int Id {get; set;}
+    
     [Column("table_id")]
-    [ForeignKey("Table")]
     [Required]
     public int TableId {get; set;}
 
+    [ForeignKey(nameof(TableId))]
+    public Table? Table {get; set;}
+
+
     [Column("person_id")]
-    [ForeignKey("User")]
     [Required]
     public int UserId {get; set;}
 
-    [Column("gues_id")]
-    [ForeignKey("Guest")]
+    [ForeignKey(nameof(UserId))]
+    public User? User {get; set;}
+
+
+    [Column("guest_id")]
+    [Required]
     public int GuestId {get;set;}
+
+    [ForeignKey(nameof(GuestId))]
+    public Guest? Guest {get; set;}
 }

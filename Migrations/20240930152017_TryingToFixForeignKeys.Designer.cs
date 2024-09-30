@@ -4,6 +4,7 @@ using Creating_API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Creating_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240930152017_TryingToFixForeignKeys")]
+    partial class TryingToFixForeignKeys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,10 +118,6 @@ namespace Creating_API.Migrations
                         .HasColumnType("int")
                         .HasColumnName("event_id");
 
-                    b.Property<DateOnly>("InvitationDate")
-                        .HasColumnType("date")
-                        .HasColumnName("user_invitation_date");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int")
                         .HasColumnName("user_id");
@@ -219,6 +218,10 @@ namespace Creating_API.Migrations
                     b.Property<bool>("HasAllergy")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("has_allergy");
+
+                    b.Property<DateOnly>("InvitationDate")
+                        .HasColumnType("date")
+                        .HasColumnName("invitation_date");
 
                     b.Property<string>("KeyWord")
                         .IsRequired()

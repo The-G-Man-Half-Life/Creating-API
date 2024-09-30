@@ -25,12 +25,16 @@ public class Guest
     public bool IsPet {get; set;}
 
     [Column("user_id")]
-    [ForeignKey("User")]
     [Required]
     public int UserId {get; set;}
 
+    [ForeignKey(nameof(UserId))]
+    public User? User {get; set;}
+
     [Column("event_id")]
-    [ForeignKey("Event")]
     [Required]
     public int EventId {get; set;}
+
+    [ForeignKey(nameof(EventId))]
+    public Event? Event {get; set;}
 }

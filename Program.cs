@@ -15,14 +15,20 @@ var connectionString = $"server={DB_HOST};port={DB_PORT};database={DB_NAME};uid=
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ApplicationDbContext>(options=>
-options.UseMySql(connectionString, ServerVersion.Parse("8.0.20-mysql")));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.Parse("8.0.20-mysql"), 
+        mysqlOptions => mysqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(30),
+            errorNumbersToAdd: null
+        ))
+);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1",new OpenApiInfo {Title = "Creating API",Version = "v1"});
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Creating API", Version = "v1" });
     c.EnableAnnotations();
 });
 

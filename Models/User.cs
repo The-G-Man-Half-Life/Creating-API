@@ -51,10 +51,7 @@ public class User
     [Required]
     public bool DrinksAlcohol  {get; set;}
     
-    [Column("invitation_date")]
-    [DataType(DataType.Date)]
-    [Required]
-    public DateOnly InvitationDate {get; set;}
+
     
     [Column("has_allergy")]
     [Required]
