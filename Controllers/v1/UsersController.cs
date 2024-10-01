@@ -1,4 +1,5 @@
 using Creating_API.Models;
+using Creating_API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,12 +9,7 @@ namespace Creating_API.Controllers.v1.Users;
 [Route("api/v1/[controller]")]
 public class UsersController : ControllerBase
 {
-    private readonly ApplicationDbContext Context;
-
-    public UsersController(ApplicationDbContext context)
-    {
-        Context = context;
-    }
+    private readonly UserServices? userServices;
 
     [HttpPost]
     public async Task<IActionResult> CreateUser([FromBody]User newUser)
@@ -24,7 +20,7 @@ public class UsersController : ControllerBase
         }
         else
         {
-            var newUser_ = new User{
+            var NewUser = new User{
                 Name = newUser.Name,
                 LastName = newUser.LastName,
                 Email = newUser.Email,
@@ -34,9 +30,7 @@ public class UsersController : ControllerBase
                 DrinksAlcohol = newUser.DrinksAlcohol,
                 HasAllergy = newUser.HasAllergy
             };
-
-            Context.Users.Add(newUser_);
-            await Context.SaveChangesAsync();
+            await userServices.Add(NewUser);
             return Ok("The user was created");
         }
     }
@@ -44,39 +38,28 @@ public class UsersController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> BringAllUsers()
     {
-        var users =await Context.Users.ToListAsync();
-
-        if(users.Count() ==0)
-        {
-            return NoContent();
-        }
-        else
-        {
-            return Ok(users);
-        }
+        await userServices.GetAll();
+        return Ok("Success");
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser([FromRoute] int id, [FromBody] User updatedUser)
+    public async Task<IActionResult> UpdateUser([FromBody] User updatedUser)
     {
-        if(CheckExistence(id) == false)
-        {
-            return NoContent();
-        }
-        else if(ModelState.IsValid == false)
+        if(ModelState.IsValid == false)
         {
             return BadRequest(ModelState);
         }
         else 
         {
-            Context.Entry(updatedUser).State = EntityState.Modified;
-            await Context.SaveChangesAsync();
+            await userServices.Update(updatedUser);
             return Ok("updated");
         }
     }
 
-    private bool CheckExistence(int id)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteUser([FromRoute] int id)
     {
-        return Context.Users.Any(u=>u.Id == id);
+            await userServices.Delete(id);
+            return Ok("The user was deleted");
     }
 }

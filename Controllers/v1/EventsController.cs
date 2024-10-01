@@ -16,4 +16,5 @@ public class EventsController : ControllerBase
     {
         Context = context;
     }
+
 }
