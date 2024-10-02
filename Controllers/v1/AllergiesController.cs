@@ -19,78 +19,37 @@ public class AllergiesController : ControllerBase
         Context = context;
     }
 
-[HttpPost]
-public async Task<IActionResult> CreateAllergies([FromBody]Allergy newAllergy)
-{
-    if(ModelState.IsValid == false)
-    {
-        return BadRequest(ModelState);
-    }
-    var newAllergy1 = new Allergy{
-        Name = newAllergy.Name
-    };
-    Context.Allergies.Add(newAllergy1);
-    await Context.SaveChangesAsync();
-    return Ok("The Allergy was cretated");
-}
+// [HttpPost]
+// public async Task<IActionResult> CreateAllergies([FromBody]Allergy newAllergy)
+// {
+
+// }
 
 
-[HttpGet]
-public async Task<IActionResult> GetAllAllergies()
-{
-    var Allergies = await Context.Allergies.ToListAsync();
+// [HttpGet]
+// public async Task<IActionResult> GetAllAllergies()
+// {
 
-    if(Allergies.Count() == 0)
-    {
-        return NoContent();
-    }
-    else
-    {
-        return Ok(Allergies);
-    }
-}
+// }
 
 
-[HttpPut("{id}")]
-public async Task<IActionResult> UpdateAllergy([FromRoute] int id, [FromBody] Allergy updatedAllergy)
-{
-    var Existence = CheckExistence(id);
-
-    if(Existence == false)
-    {
-        return NoContent();
-    }
-    updatedAllergy.Id = id;
-    if(ModelState.IsValid == false)
-    {
-        return BadRequest(ModelState);
-    }
-    Context.Entry(updatedAllergy).State = EntityState.Modified;
-    await Context.SaveChangesAsync();
-    return Ok("updated");
-}
+// [HttpPut("{id}")]
+// public async Task<IActionResult> UpdateAllergy([FromRoute] int id, [FromBody] Allergy updatedAllergy)
+// {
 
 
-[HttpDelete("{id}")]
 
-public async Task<IActionResult> DeleteAllergy([FromRoute] int id)
-{
-    var Existence = CheckExistence(id);
-    if (Existence == false)
-    {
-        return NoContent();
-    }
-    var allergyUbication = await Context.Allergies.FirstOrDefaultAsync(at => at.Id == id);
-    Context.Allergies.Remove(allergyUbication);
-    await Context.SaveChangesAsync();
+// [HttpDelete("{id}")]
 
-    return Ok("The Allergy was erased succesfully");
-}
+// public async Task<IActionResult> DeleteAllergy([FromRoute] int id)
+// {
 
-private bool CheckExistence(int id)
-{
-    return Context.Allergies.Any(A=>A.Id == id);
-}
+// }
+
+// private bool CheckExistence(int id)
+// {
+
+// }
 }
 
 

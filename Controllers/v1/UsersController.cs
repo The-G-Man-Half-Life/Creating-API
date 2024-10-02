@@ -38,28 +38,49 @@ public class UsersController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> BringAllUsers()
     {
-        await userServices.GetAll();
-        return Ok("Success");
+        try
+        {
+            await userServices.GetAll();
+            return Ok("Success");
+        }
+        catch (System.Exception)
+        {
+            
+            throw new Exception("Un error ocurrio durante el proceso");
+        }
+
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser([FromBody] User updatedUser)
+    public async Task<IActionResult> UpdateUser([FromBody] User updatedUser,[FromRoute] int id)
     {
         if(ModelState.IsValid == false)
         {
             return BadRequest(ModelState);
         }
+        else if(await userServices.CheckExistenceUser(id) == -1)
+        {
+            return BadRequest("El id no existe en la base de datos");
+        }
         else 
         {
             await userServices.Update(updatedUser);
-            return Ok("updated");
+            return Ok("actualizado");
         }
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser([FromRoute] int id)
     {
+        if (await userServices.CheckExistenceUser(id)==-1)
+        {
+            return BadRequest("El id no existe en la base de datos");
+        }
+        else
+        {
             await userServices.Delete(id);
             return Ok("The user was deleted");
+        }
+            
     }
 }

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Creating_API.Models;
 using Creating_API.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +31,6 @@ public class UserServices : IUserRepository
                 throw new Exception("un error ocurrio al traer los usuarios");
             }
         }
-
     }
     public async Task<User> GetById(int id)
     {
@@ -46,21 +46,15 @@ public class UserServices : IUserRepository
     }
     public async Task<User> GetByKeyword(string keyword)
     {
-        if (string.IsNullOrWhiteSpace(keyword))
-        {
-            throw new ArgumentNullException(nameof(keyword), "la palabra clave no puede ser nulo.");
-        }
-        else
-        {
-            try
-            {
-                return await Context.Users.FirstOrDefaultAsync(u => u.KeyWord == keyword);
-            }
-            catch (System.Exception)
-            {
 
-                throw new Exception("un error ocurrio vuelva a intentarlo");
-            }
+        try
+        {
+            return await Context.Users.FirstOrDefaultAsync(u => u.KeyWord == keyword);
+        }
+        catch (System.Exception)
+        {
+
+            throw new Exception("un error ocurrio vuelva a intentarlo");
         }
 
 
@@ -113,5 +107,14 @@ public class UserServices : IUserRepository
             throw new Exception("The user was not ");
         }
     }
-
+    public async Task<int> CheckExistenceUser(int id)
+    {
+        if(await Context.Users.AnyAsync(u=>u.Id==id) == false)
+        {return -1;}
+        else
+        {
+            var user = await Context.Users.FirstOrDefaultAsync(u=>u.Id == id);
+            return user.Id;
+        }
+    }
 }
